@@ -1,3 +1,4 @@
+```mermaid
 flowchart LR
 
 %% =====================
@@ -77,6 +78,7 @@ end
 
 A --> RESULT[Audience Segments<br/>JSON / Explanation]
 RESULT --> U
+```
 
 
 # AI Audience Discovery Platform  
