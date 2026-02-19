@@ -1,3 +1,84 @@
+flowchart LR
+
+%% =====================
+%% User & Agent Layer
+%% =====================
+
+U[Marketing / Analyst User]
+
+A[Agentic AI Layer<br/>ReAct Agent]
+
+U --> A
+
+%% =====================
+%% Orchestration
+%% =====================
+
+A -->|Analytical questions| SQL_TOOL[SQL Analytics Tool]
+A -->|Hybrid intent + behavior| HYBRID_TOOL[Hybrid Discovery Tool]
+A -->|Profile enrichment| PROFILE_TOOL[SQL Data Retriever]
+
+%% =====================
+%% Customer Data Layer
+%% =====================
+
+subgraph CDL["Customer Data Layer"]
+
+PG[(PostgreSQL<br/>CRM + Clickstream Events)]
+QD[(Qdrant<br/>Customer Embeddings)]
+
+end
+
+SQL_TOOL --> PG
+PROFILE_TOOL --> PG
+
+%% =====================
+%% True Hybrid Fusion
+%% =====================
+
+HYBRID_TOOL -->|1. Behavioral Gate (SQL)| PG
+PG -->|customer_ids| HYBRID_TOOL
+HYBRID_TOOL -->|2. Semantic Refinement| QD
+
+QD --> HYBRID_TOOL
+HYBRID_TOOL --> A
+
+%% =====================
+%% Vector Only Discovery
+%% =====================
+
+A -->|Semantic discovery| VECTOR_TOOL[Semantic Search]
+VECTOR_TOOL --> QD
+QD --> VECTOR_TOOL
+VECTOR_TOOL --> A
+
+%% =====================
+%% Ingestion Pipeline
+%% =====================
+
+subgraph INGEST["Ingestion & Feature Engineering"]
+
+CRM[CRM CSV]
+CLICK[Clickstream CSV]
+
+ETL[ETL / Aggregation<br/>Customer Semantic Profiles]
+
+CRM --> ETL
+CLICK --> ETL
+
+ETL --> PG
+ETL --> QD
+
+end
+
+%% =====================
+%% Output
+%% =====================
+
+A --> RESULT[Audience Segments<br/>JSON / Explanation]
+RESULT --> U
+
+
 # AI Audience Discovery Platform  
 **Hybrid Analytical + Semantic CDP Intelligence**
 
