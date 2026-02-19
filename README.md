@@ -37,9 +37,9 @@ PROFILE_TOOL --> PG
 %% True Hybrid Fusion
 %% =====================
 
-HYBRID_TOOL -->|1. Behavioral Gate (SQL)| PG
+HYBRID_TOOL -->|"1. Behavioral Gate (SQL)"| PG
 PG -->|customer_ids| HYBRID_TOOL
-HYBRID_TOOL -->|2. Semantic Refinement| QD
+HYBRID_TOOL -->|"2. Semantic Refinement"| QD
 
 QD --> HYBRID_TOOL
 HYBRID_TOOL --> A
